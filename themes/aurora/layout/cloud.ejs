@@ -1,0 +1,22 @@
+<%
+var isTag = page.type === 'tag';
+var source = isTag ? site.tags : site.categories;
+%>
+<div class="wrap single-wrap">
+  <div class="page-head">
+    <span class="eyebrow">TAXONOMY</span>
+    <h1><%= page.title %></h1>
+    <p><%= isTag ? '按标签浏览全部文章。' : '按分类浏览全部文章。' %></p>
+  </div>
+
+  <div class="cloud-list">
+    <% source.each(function (item) { %>
+    <a class="cloud-item" href="<%- url_for(item.path) %>">
+      <span><%= isTag ? '#' + item.name : item.name %></span>
+      <em><%= item.posts.length %> 篇</em>
+    </a>
+    <% }); %>
+  </div>
+
+  <p class="cloud-back"><a href="<%- url_for('/') %>">← 返回首页</a></p>
+</div>

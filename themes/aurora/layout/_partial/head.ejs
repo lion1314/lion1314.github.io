@@ -1,0 +1,27 @@
+<%
+var docTitle = page.title ? page.title + ' · ' + config.title : config.title;
+var docDesc = page.description || config.description || '';
+var docUrl = (config.url || '').replace(/\/$/, '') + url_for(page.path || '');
+%>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title><%= docTitle %></title>
+<meta name="description" content="<%= docDesc %>">
+<meta name="author" content="<%= config.author || '' %>">
+<meta name="theme-color" content="#4f46e5">
+<meta property="og:type" content="<%= page.layout === 'post' ? 'article' : 'website' %>">
+<meta property="og:title" content="<%= docTitle %>">
+<meta property="og:description" content="<%= docDesc %>">
+<meta property="og:url" content="<%= docUrl %>">
+<link rel="icon" type="image/svg+xml" href="<%- url_for('favicon.svg') %>">
+<link rel="alternate" type="application/atom+xml" title="<%= config.title %>" href="<%- url_for('atom.xml') %>">
+<link rel="stylesheet" href="<%- url_for('css/style.css') %>">
+<script>
+(function () {
+  try {
+    var saved = localStorage.getItem('aurora-theme');
+    var dark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    document.documentElement.setAttribute('data-theme', saved || (dark ? 'dark' : 'light'));
+  } catch (e) {}
+})();
+</script>

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="<%= config.language || 'zh-CN' %>" data-theme="light">
+<head>
+<%- partial('_partial/head') %>
+</head>
+<body>
+<%- partial('_partial/header') %>
+
+<%- body %>
+
+<%- partial('_partial/footer') %>
+
+<button class="back-top" id="backTop" type="button" aria-label="回到顶部" title="回到顶部">↑</button>
+<script src="<%- url_for('js/main.js') %>" defer></script>
+</body>
+</html>

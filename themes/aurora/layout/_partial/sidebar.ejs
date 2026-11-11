@@ -1,0 +1,41 @@
+<aside class="sidebar">
+  <section class="side-card profile">
+    <div class="avatar" aria-hidden="true"><span><%= String(config.author || 'A').slice(0, 1).toUpperCase() %></span></div>
+    <h3><%= config.author %></h3>
+    <p><%= theme.sidebar_bio || config.description %></p>
+    <div class="profile-stats">
+      <div><strong><%= site.posts.length %></strong><span>文章</span></div>
+      <div><strong><%= site.categories.length %></strong><span>分类</span></div>
+      <div><strong><%= site.tags.length %></strong><span>标签</span></div>
+    </div>
+    <div class="profile-links">
+      <% (theme.links || []).forEach(function (l) { %>
+      <a href="<%- /^https?:\/\//.test(l.url) ? l.url : url_for(l.url) %>"><%= l.name %> ↗</a>
+      <% }); %>
+    </div>
+  </section>
+
+  <section class="side-card">
+    <h3 class="side-title">分类</h3>
+    <ul class="side-list">
+      <% site.categories.each(function (c) { %>
+      <li><a href="<%- url_for(c.path) %>"><span><%= c.name %></span><em><%= c.posts.length %></em></a></li>
+      <% }); %>
+    </ul>
+  </section>
+
+  <section class="side-card">
+    <h3 class="side-title">标签</h3>
+    <div class="tag-cloud">
+      <% site.tags.each(function (t) { %>
+      <a href="<%- url_for(t.path) %>" style="--s:<%= Math.min(1.35, 0.86 + t.posts.length * 0.09).toFixed(2) %>">#<%= t.name %></a>
+      <% }); %>
+    </div>
+  </section>
+
+  <section class="side-card side-tip">
+    <h3 class="side-title">订阅更新</h3>
+    <p>用 RSS 阅读器订阅，新文章自动送达。</p>
+    <a class="side-btn" href="<%- url_for('atom.xml') %>">Atom 订阅 →</a>
+  </section>
+</aside>

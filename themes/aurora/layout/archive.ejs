@@ -1,0 +1,48 @@
+<%
+function names(q) {
+  var a = [];
+  if (!q) return a;
+  try { if (typeof q.each === 'function') q.each(function (x) { a.push(x.name || String(x)); }); else if (q.length) for (var i = 0; i < q.length; i++) a.push(q[i].name || String(q[i])); } catch (e) {}
+  return a;
+}
+function pd(p) { return p.date && p.date.format ? p.date.format('YYYY-MM-DD') : String(p.date || '').slice(0, 10); }
+var heading = page.category ? '分类 · ' + page.category : (page.tag ? '标签 · #' + page.tag : (page.year ? page.year + ' 年文章' : '文章归档'));
+page.title = heading;
+var note = page.category || page.tag ? '该分组下的全部文章。' : '共 ' + site.posts.length + ' 篇文章，按时间倒序排列。';
+var groups = {};
+if (page.posts && typeof page.posts.each === 'function') {
+  page.posts.each(function (p) {
+    var y = pd(p).slice(0, 4);
+    if (!groups[y]) groups[y] = [];
+    groups[y].push(p);
+  });
+}
+var years = Object.keys(groups).sort().reverse();
+%>
+<div class="wrap single-wrap">
+  <div class="page-head">
+    <span class="eyebrow">ARCHIVE</span>
+    <h1><%= heading %></h1>
+    <p><%= note %></p>
+  </div>
+
+  <% years.forEach(function (y) { %>
+  <section class="timeline-year">
+    <h2 class="year-label"><%= y %><small><%= groups[y].length %> 篇</small></h2>
+    <ul class="timeline">
+      <% groups[y].forEach(function (p) { %>
+      <li>
+        <span class="tl-dot" aria-hidden="true"></span>
+        <time datetime="<%= pd(p) %>"><%= pd(p).slice(5) %></time>
+        <a href="<%- url_for(p.path) %>"><%= p.title %></a>
+        <% var cs = names(p.categories); if (cs.length) { %><span class="tl-cat"><%= cs[0] %></span><% } %>
+      </li>
+      <% }); %>
+    </ul>
+  </section>
+  <% }); %>
+
+  <% if (typeof paginator === 'function') { %>
+  <div class="pagination"><%- paginator({ prev_text: '← 上一页', next_text: '下一页 →', escape: false }) %></div>
+  <% } %>
+</div>

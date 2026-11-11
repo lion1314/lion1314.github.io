@@ -1,0 +1,22 @@
+# aurora 主题配置：想改文案、导航、链接，只改这里
+menu:
+  - { name: 文章, url: /, key: home }
+  - { name: 归档, url: /archives/, key: archives }
+  - { name: 分类, url: /categories/, key: categories }
+  - { name: 标签, url: /tags/, key: tags }
+  - { name: 关于, url: /about/, key: about }
+
+hero_kicker: "HELLO, WORLD"
+hero_title: "把工具与想法"
+hero_highlight: "写下来"
+hero_sub: "记录 AI 工具、开发者工具，以及那些值得留下来的实践。"
+hero_primary:   { text: 开始阅读, url: /archives/ }
+hero_secondary: { text: 关于我, url: /about/ }
+
+sidebar_bio: "折腾 AI 工具与开发者工具，顺手写点笔记。内容归自己所有。"
+links:
+  - { name: GitHub, url: "https://github.com/lion1314" }
+  - { name: 订阅, url: /atom.xml }
+
+footer_note: "Hexo · aurora 手写主题"
+toc: true

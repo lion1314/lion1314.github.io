@@ -1,0 +1,11 @@
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <div class="footer-brand"><span class="brand-mark small" aria-hidden="true"></span><span><%= config.title %></span></div>
+    <p class="footer-copy">© <%= new Date().getFullYear() %> <%= config.author %>. <%= theme.footer_note || '' %></p>
+    <div class="footer-links">
+      <a href="<%- url_for('atom.xml') %>">Atom</a>
+      <a href="<%- url_for('sitemap.xml') %>">Sitemap</a>
+      <a href="<%- url_for('/') %>">首页</a>
+    </div>
+  </div>
+</footer>

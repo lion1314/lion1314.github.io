@@ -1,0 +1,30 @@
+<%
+function taxNames(q) {
+  var a = [];
+  if (!q) return a;
+  try {
+    if (typeof q.each === 'function') { q.each(function (x) { a.push(x.name || String(x)); }); }
+    else if (q.length) { for (var i = 0; i < q.length; i++) { a.push(q[i].name || String(q[i])); } }
+  } catch (e) {}
+  return a;
+}
+var d = post.date && post.date.format ? post.date.format('YYYY-MM-DD') : String(post.date || '').slice(0, 10);
+var plain = String(post.content || '').replace(/<[^>]+>/g, ' ').replace(/&[a-zA-Z#0-9]+;/g, ' ').replace(/\s+/g, ' ').trim();
+var summary = post.description || (plain.slice(0, 108) + (plain.length > 108 ? '…' : ''));
+var minutes = Math.max(1, Math.ceil(plain.length / 400));
+var cats = taxNames(post.categories);
+%>
+<article class="post-card">
+  <a class="card-hit" href="<%- url_for(post.path) %>">
+    <div class="card-meta">
+      <time datetime="<%= d %>"><%= d %></time>
+      <% if (cats.length) { %><span class="card-cat"><%= cats[0] %></span><% } %>
+    </div>
+    <h2 class="card-title"><%= post.title %></h2>
+    <p class="card-desc"><%= summary %></p>
+    <div class="card-foot">
+      <span>约 <%= minutes %> 分钟</span>
+      <span class="card-arrow" aria-hidden="true">→</span>
+    </div>
+  </a>
+</article>

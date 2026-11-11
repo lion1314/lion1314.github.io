@@ -1,0 +1,67 @@
+<section class="hero">
+  <span class="hero-orb orb-a" aria-hidden="true"></span>
+  <span class="hero-orb orb-b" aria-hidden="true"></span>
+  <div class="hero-grid" aria-hidden="true"></div>
+
+  <div class="hero-inner">
+    <span class="hero-kicker"><i></i><%= theme.hero_kicker || 'HELLO, WORLD' %></span>
+    <h1 class="hero-title"><%= theme.hero_title || config.title %><br><em><%= theme.hero_highlight || '' %></em></h1>
+    <p class="hero-sub"><%= theme.hero_sub || config.description %></p>
+    <div class="hero-actions">
+      <a class="btn primary" href="<%- url_for(theme.hero_primary ? theme.hero_primary.url : '/archives/') %>">
+        <%= theme.hero_primary ? theme.hero_primary.text : '开始阅读' %><span aria-hidden="true">→</span>
+      </a>
+      <a class="btn ghost" href="<%- url_for(theme.hero_secondary ? theme.hero_secondary.url : '/about/') %>">
+        <%= theme.hero_secondary ? theme.hero_secondary.text : '关于我' %>
+      </a>
+    </div>
+    <div class="hero-stats">
+      <div><strong><%= site.posts.length %></strong><span>篇文章</span></div>
+      <div><strong><%= site.categories.length %></strong><span>个分类</span></div>
+      <div><strong><%= site.tags.length %></strong><span>个标签</span></div>
+    </div>
+  </div>
+
+  <div class="hero-art" aria-hidden="true">
+    <svg viewBox="0 0 340 340" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="ring" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#4f46e5" stop-opacity=".55"/>
+          <stop offset="1" stop-color="#06b6d4" stop-opacity=".25"/>
+        </linearGradient>
+      </defs>
+      <circle cx="170" cy="170" r="150" stroke="url(#ring)" stroke-width="1.2" stroke-dasharray="5 12"/>
+      <circle cx="170" cy="170" r="112" stroke="url(#ring)" stroke-width="1.2"/>
+      <circle cx="170" cy="170" r="72" stroke="url(#ring)" stroke-width="1.2" stroke-dasharray="3 8"/>
+      <circle cx="320" cy="58" r="5" fill="#06b6d4" opacity=".7"/>
+      <circle cx="24" cy="248" r="4" fill="#4f46e5" opacity=".6"/>
+    </svg>
+    <div class="hero-window">
+      <div class="hw-bar"><i></i><i></i><i></i><span>blog.md</span></div>
+      <pre><span class="dim"># 一个想法</span>
+$ hexo new "write it down"
+<span class="ok">✓</span> 已创建，开始写吧</pre>
+    </div>
+  </div>
+</section>
+
+<div class="wrap main-grid">
+  <main class="content">
+    <div class="section-head">
+      <h2>最新文章</h2>
+      <a class="section-more" href="<%- url_for('/archives/') %>">全部归档 →</a>
+    </div>
+
+    <div class="card-grid">
+      <% page.posts.each(function (post) { %>
+      <%- partial('_partial/post-card', { post: post }) %>
+      <% }); %>
+    </div>
+
+    <% if (typeof paginator === 'function') { %>
+    <div class="pagination"><%- paginator({ prev_text: '← 上一页', next_text: '下一页 →', escape: false }) %></div>
+    <% } %>
+  </main>
+
+  <%- partial('_partial/sidebar') %>
+</div>

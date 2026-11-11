@@ -1,0 +1,67 @@
+<%
+function taxNames(q) {
+  var a = [];
+  if (!q) return a;
+  try {
+    if (typeof q.each === 'function') { q.each(function (x) { a.push(x.name || String(x)); }); }
+    else if (q.length) { for (var i = 0; i < q.length; i++) { a.push(q[i].name || String(q[i])); } }
+  } catch (e) {}
+  return a;
+}
+var d = page.date && page.date.format ? page.date.format('YYYY-MM-DD') : String(page.date || '').slice(0, 10);
+var plain = String(page.content || '').replace(/<[^>]+>/g, ' ').replace(/&[a-zA-Z#0-9]+;/g, ' ').replace(/\s+/g, ' ').trim();
+var minutes = Math.max(1, Math.ceil(plain.length / 400));
+var cats = taxNames(page.categories);
+var tags = taxNames(page.tags);
+var tocHtml = '';
+if (theme.toc !== false && typeof toc === 'function') {
+  try { tocHtml = toc(page.content, { list_number: false, max_depth: 3 }) || ''; } catch (e) { tocHtml = ''; }
+}
+%>
+<div class="wrap post-wrap">
+  <nav class="breadcrumb" aria-label="面包屑">
+    <a href="<%- url_for('/') %>">首页</a><span>/</span>
+    <% if (cats.length) { %><a href="<%- url_for('/categories/') %>"><%= cats[0] %></a><span>/</span><% } %>
+    <span><%= page.title %></span>
+  </nav>
+
+  <div class="post-grid">
+    <article class="post-main">
+      <header class="post-head">
+        <% if (cats.length) { %><div class="post-cats"><% cats.forEach(function (c) { %><a href="<%- url_for('/categories/') %>"><%= c %></a><% }); %></div><% } %>
+        <h1><%= page.title %></h1>
+        <% if (page.description) { %><p class="post-lead"><%= page.description %></p><% } %>
+        <div class="post-info">
+          <span class="info-date"><time datetime="<%= d %>"><%= d %></time></span>
+          <span>约 <%= minutes %> 分钟</span>
+          <span><%= config.author %></span>
+        </div>
+      </header>
+
+      <div class="entry"><%- page.content %></div>
+
+      <% if (tags.length) { %>
+      <div class="post-tags"><% tags.forEach(function (t) { %><a href="<%- url_for('/tags/') %>">#<%= t %></a><% }); %></div>
+      <% } %>
+
+      <nav class="post-nav">
+        <% if (page.prev) { %>
+        <a class="pn prev" href="<%- url_for(page.prev.path) %>"><small>← 上一篇</small><span><%= page.prev.title %></span></a>
+        <% } %>
+        <% if (page.next) { %>
+        <a class="pn next" href="<%- url_for(page.next.path) %>"><small>下一篇 →</small><span><%= page.next.title %></span></a>
+        <% } %>
+      </nav>
+    </article>
+
+    <aside class="post-aside">
+      <% if (tocHtml.trim()) { %>
+      <div class="toc-card"><h3>本文目录</h3><div class="toc-body"><%- tocHtml %></div></div>
+      <% } %>
+      <div class="toc-card back-card">
+        <a href="<%- url_for('/') %>">← 返回文章列表</a>
+        <a href="<%- url_for('/archives/') %>">查看全部归档 →</a>
+      </div>
+    </aside>
+  </div>
+</div>
